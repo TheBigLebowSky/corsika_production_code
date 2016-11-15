@@ -12,17 +12,30 @@ Options:
     --primary_charge=PRIMARY_CHARGE             Choose primary charge.
     
     --Emax=MAX_ENERGY                           Specify energy range.
-    --Emin=MIN_ENERGY
-    
-    
-       
+    --Emin=MIN_ENERGY   
 """
-
-
+import os
+import scoop as sc
+from scoop import futures
 import docopt
 import corsika_production_tools
 import corsika_wrapper as cw
 
+
+def output_path():
+    return sc.shared.getConst('output_path', timeout=5)
+
+
+def make_corsika_run(steering):
+    cw.corsika(
+        steering_card=steering['steering_card'],
+        output_path=os.path.join(output_path(), 'my_file_run_number_%d.dat' %(steering['run_number'])),
+        save_stdout=True)
+
+    return True
+            
+            
+            
 def corsika_id(charge):
 
     primaries = [
@@ -42,7 +55,7 @@ def corsika_id(charge):
         {'charge':13, 'mass':27, 'corsika_id':2713, 'name':'Aluminium'},
         {'charge':14, 'mass':28, 'corsika_id':2814, 'name':'Silicon'},
         {'charge':15, 'mass':31, 'corsika_id':3115, 'name':'Phosphorus'},
-        {'charge':16, 'mass':32, 'corsika_id':14, 'name':'Sulfur'},
+        {'charge':16, 'mass':32, 'corsika_id':3216, 'name':'Sulfur'},
         {'charge':17, 'mass':35, 'corsika_id':3517, 'name':'Chlorine'},
         {'charge':18, 'mass':40, 'corsika_id':4018, 'name':'Argon'},
         {'charge':19, 'mass':39, 'corsika_id':3919, 'name':'Potassium'},
@@ -62,10 +75,13 @@ def corsika_id(charge):
 
 def main():
     
+    
     try:
         arguments = docopt.docopt(__doc__)
         
-        output_path = arguments['--output_path']
+        
+        sc.shared.setConst(output_path=os.path.abspath(arguments['--output_path']))
+        
         
         charge = int(arguments['--primary_charge'])
         particle_id = corsika_id(charge)
@@ -75,21 +91,19 @@ def main():
         number_of_runs = int(arguments['--number_of_runs'])
         number_of_events = int(arguments['--number_of_events'])
     
-        #Choose and read template steering card
-        steering_card_template_path = 'corsika_template_input.txt'
-        steering_card_template= cw.tools.read_steering_card(steering_card_template_path)
-
 
         #Make steering cards based on the given template
-        steering_cards=corsika_production_tools.make_corsika_steering_cards(
-                    steering_card_template, output_path, prmpar=particle_id, 
-                    number_of_runs=number_of_runs, number_of_events=number_of_events, 
+        steering_cards = corsika_production_tools.make_corsika_steering_cards(
+                    prmpar=particle_id, 
+                    number_of_runs=number_of_runs,
+                    number_of_events=number_of_events, 
                     energy_range=energy_range)
 
 
         #Run corsika
-        corsika_production_tools.make_corsika_run(steering_cards,output_path)
-        
+        result = list(sc.futures.map(make_corsika_run, steering_cards))            
+
+
     except docopt.DocoptExit as e:        
         print(e)
   
