@@ -8,7 +8,7 @@ Created on Thu Nov 10 10:22:53 2016
 
 import numpy as np
 import corsika_wrapper as cw
-
+from collections import OrderedDict
 
 def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, energy_range=[10000,90000]):
         steering = []
@@ -16,7 +16,7 @@ def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, 
 
             run_number = run_index + 1
             
-            card = {}
+            card = OrderedDict()
             card['RUNNR'] = [str(run_number)]
             card['EVTNR'] = [str(1)]
             card['NSHOW'] = [str(number_of_events)]
