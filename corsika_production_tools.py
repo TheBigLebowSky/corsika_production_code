@@ -35,6 +35,7 @@ def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, 
             card['TELESCOPE'] = [str(0.)+' '+str(0.)+' '+str(0.)+' '+str(6000.0)]
             card['ATMOSPHERE'] = [str(6)+' T']
             card['CSCAT'] = [str(1)+' '+str(6000.0)+' '+str(0.0)]
+            card['CERQEF'] = ['F T F'] # pde, atmo, mirror
             card['CWAVLG'] = [str(290)+' '+str(700)]
             card['CERSIZ'] = [str(1)]
             card['CERFIL'] = ['F']
