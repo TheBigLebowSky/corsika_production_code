@@ -47,4 +47,5 @@ def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, 
             })
         return steering
 
-
+A=make_corsika_steering_cards(prmpar=4, number_of_runs=1, number_of_events=1, energy_range=[10000,90000])
+print (int(A[0]['steering_card']['PRMPAR'][0]))
