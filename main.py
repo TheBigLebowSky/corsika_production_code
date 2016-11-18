@@ -29,7 +29,7 @@ def output_path():
 def make_corsika_run(steering):
     cw.corsika(
         steering_card=steering['steering_card'],
-        output_path=os.path.join(output_path(), 'my_file_run_number_%d.dat' %(steering['run_number'])),
+        output_path=os.path.join(output_path(), 'corsika_75600_%d_run_%d.evtio' %(int(steering['steering_card']['PRMPAR'][0]),steering['run_number'])),
         save_stdout=True)
 
     return True
