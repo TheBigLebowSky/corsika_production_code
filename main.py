@@ -1,7 +1,7 @@
 """
 Produces hadronic shower for DC light studies
 
-Usage: hadronic_production  -o=OUTPUT_PATH --number_of_runs=NUMBER_OF_RUNS --number_of_events=NUMBER_EVENTS_PER_PRIMARY --primary_charge=PRIMARY_CHARGE --Emax=MAX_ENERGY --Emin=MIN_ENERGY 
+Usage: hadronic_production  -o=OUTPUT_PATH --number_of_runs=NUMBER_OF_RUNS --number_of_events=NUMBER_EVENTS_PER_PRIMARY --primary_charge=PRIMARY_CHARGE --Emax=MAX_ENERGY --Emin=MIN_ENERGY --cscat_x=CSCAT_X --cscat_y=CSCAT_Y 
 
 Options:
     -o --output_path=OUTPUT_PATH                Overwrites the output path in 
@@ -12,7 +12,10 @@ Options:
     --primary_charge=PRIMARY_CHARGE             Choose primary charge.
     
     --Emax=MAX_ENERGY                           Specify energy range.
-    --Emin=MIN_ENERGY   
+    --Emin=MIN_ENERGY
+
+    --cscat_x=CSCAT_X                           Specifiy maximum scattering of shower core
+    --cscat_y=CSCAT_Y                              
 """
 import os
 import scoop as sc
@@ -91,13 +94,16 @@ def main():
         number_of_runs = int(arguments['--number_of_runs'])
         number_of_events = int(arguments['--number_of_events'])
     
+	cscat_x = int(arguments['--cscat_x'])
+	cscat_y = int(arguments['--cscat_y'])
 
         #Make steering cards based on the given template
         steering_cards = corsika_production_tools.make_corsika_steering_cards(
                     prmpar=particle_id, 
                     number_of_runs=number_of_runs,
                     number_of_events=number_of_events, 
-                    energy_range=energy_range)
+                    energy_range=energy_range,
+		    cscat_x=cscat_x, cscat_y=cscat_y)
 
 
         #Run corsika

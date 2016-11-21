@@ -10,7 +10,7 @@ import numpy as np
 import corsika_wrapper as cw
 from collections import OrderedDict
 
-def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, energy_range=[10000,90000]):
+def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, energy_range=[10000,90000], cscat_x=75000, cscat_y=0):
         steering = []
         for run_index in range(number_of_runs):
 
@@ -32,9 +32,9 @@ def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, 
             card['ELMFLG'] = ['T T']
             card['MAXPRT'] = [str(1)]
             card['PAROUT'] = ['F F']
-            card['TELESCOPE'] = [str(0.)+' '+str(0.)+' '+str(0.)+' '+str(6000.0)]
+            card['TELESCOPE'] = [str(0.)+' '+str(0.)+' '+str(0.)+' '+str(7500.0)]
             card['ATMOSPHERE'] = [str(6)+' T']
-            card['CSCAT'] = [str(1)+' '+str(6000.0)+' '+str(0.0)]
+            card['CSCAT'] = [str(1)+' '+str(cscat_x)+' '+str(cscat_y)]
             card['CERQEF'] = ['F T F'] # pde, atmo, mirror
             card['CWAVLG'] = [str(290)+' '+str(700)]
             card['CERSIZ'] = [str(1)]
