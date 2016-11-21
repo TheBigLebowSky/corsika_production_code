@@ -94,8 +94,8 @@ def main():
         number_of_runs = int(arguments['--number_of_runs'])
         number_of_events = int(arguments['--number_of_events'])
     
-	   cscat_x = int(arguments['--cscat_x'])
-	   cscat_y = int(arguments['--cscat_y'])
+        cscat_x = int(arguments['--cscat_x'])
+        cscat_y = int(arguments['--cscat_y'])
 
         #Make steering cards based on the given template
         steering_cards = corsika_production_tools.make_corsika_steering_cards(
@@ -103,7 +103,7 @@ def main():
                     number_of_runs=number_of_runs,
                     number_of_events=number_of_events, 
                     energy_range=energy_range,
-		    cscat_x=cscat_x, cscat_y=cscat_y)
+                    cscat_x=cscat_x, cscat_y=cscat_y)
 
 
         #Run corsika
