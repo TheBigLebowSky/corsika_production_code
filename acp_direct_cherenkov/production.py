@@ -39,8 +39,12 @@ def make_corsika_run(instruction):
             output_path=eventio_path,
             save_stdout=True)
 
-        shutil.copy(eventio_path+'.stdout', instruction['output_path']+'.corsika.stdout')
-        shutil.copy(eventio_path+'.stderr', instruction['output_path']+'.corsika.stderr')
+        shutil.copy(
+            eventio_path+'.stdout', 
+            instruction['output_path']+'.corsika.stdout')
+        shutil.copy(
+            eventio_path+'.stderr', 
+            instruction['output_path']+'.corsika.stderr')
 
         eventio_extractor(
             eventio_path=eventio_path,
@@ -80,12 +84,10 @@ def main():
         for nucleus in config['steering']['nuclei']:
             config['path']['main'][str(nucleus['PRMPAR'])] = os.path.join(
                 config['path']['main']['dir'],
-                str(nucleus['PRMPAR']))
+                dc.corsika_tools.PRMPAR_2_human_readable(nucleus['PRMPAR']))
             os.mkdir(config['path']['main'][str(nucleus['PRMPAR'])])
 
         config['evtio_extractor'] = os.path.abspath(arguments['--evtio_extractor'])
-
-        print(config)
 
         instructions = dc.instructions.make_instructions(config)
         result = list(scoop.futures.map(make_corsika_run, instructions)) 
@@ -95,5 +97,3 @@ def main():
   
 if __name__ == '__main__':    
     main()
-
-

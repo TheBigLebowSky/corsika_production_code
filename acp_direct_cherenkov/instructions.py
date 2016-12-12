@@ -2,6 +2,7 @@ import numpy as np
 from collections import OrderedDict
 import os
 
+
 def make_instructions(config):
 
     max_scatter_radius = config['steering']['max_scatter_radius']
