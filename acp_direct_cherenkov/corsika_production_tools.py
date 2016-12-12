@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 10 10:22:53 2016
-
-@author: cherenkov
-"""
-
-
 import numpy as np
 import corsika_wrapper as cw
 from collections import OrderedDict

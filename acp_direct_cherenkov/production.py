@@ -10,9 +10,10 @@ Options:
                                             extractor.
 """
 import os
+import shutil
 import scoop
 import docopt
-import corsika_production_tools
+import acp_direct_cherenkov as dc
 import corsika_wrapper as cw
 
 """
@@ -60,7 +61,34 @@ def main():
     try:
         arguments = docopt.docopt(__doc__)
 
-        print('production main')
+        config = {}
+        config['path'] = {}
+        config['path']['main'] = {}
+        config['path']['main']['dir'] = os.path.abspath(arguments['--output'])
+
+        config['path']['main']['input'] = {}
+        config['path']['main']['input']['dir'] = os.path.join(
+            config['path']['main']['dir'],
+            'input')
+
+        config['path']['main']['input']['config'] = os.path.join(
+            config['path']['main']['input']['dir'],
+            'config.json')
+
+        os.mkdir(config['path']['main']['dir'])
+        os.mkdir(config['path']['main']['input']['dir'])
+
+        shutil.copy(arguments['--config'], config['path']['main']['input']['config'])
+
+        config['config'] = dc.config.read_config(config['path']['main']['input']['config'])
+
+        for nucleus in config['config']['nuclei']:
+            config['path']['main'][str(nucleus['PRMPAR'])] = os.path.join(
+                config['path']['main']['dir'],
+                str(nucleus['PRMPAR']))
+            os.mkdir(config['path']['main'][str(nucleus['PRMPAR'])])
+
+        print(config)
 
         """
         production_steering = read_steering(arguments['--steering_path'])
