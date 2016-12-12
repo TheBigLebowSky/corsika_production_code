@@ -15,47 +15,39 @@ import scoop
 import docopt
 import acp_direct_cherenkov as dc
 import corsika_wrapper as cw
-
-"""
-def keep_stdout(text_path, cfg):
-    shutil.copyfile(
-        text_path, 
-        os.path.join(
-            cfg['output']['stdout'], 
-            str(cfg['run']['number'])+'_'+os.path.basename(text_path)))
+import tempfile
+import subprocess
 
 
-
-def event_io_converter(eventio_path, output_path, cfg):
-    with open(output_path+'.stdout', 'w') as out, open(output_path+'.stderr', 'w') as err:
+def eventio_extractor(eventio_path, output_path, eventio_extractor_path):
+    with open(output_path+'.evtio_extractor.stdout', 'w') as out, open(output_path+'.evtio_extractor.stderr', 'w') as err:
         subprocess.call([
-            cfg['mctracer_eventio_converter_path'],
+            eventio_extractor_path,
             '-i', eventio_path,
             '-o', output_path],
             stdout=out,
             stderr=err)   
+          
 
-
-def make_corsika_run(steering):
+def make_corsika_run(instruction):
     
     with tempfile.TemporaryDirectory(prefix='dc_production_') as tmp_dir:
         eventio_path = os.path.join(tmp_dir, 'corsika_run.evtio')
 
         cw.corsika(
-            steering_card=steering['corsika_steering_card'],
+            steering_card=instruction['corsika_steering_card'],
             output_path=eventio_path,
             save_stdout=True)
 
-        keep_stdout()
+        shutil.copy(eventio_path+'.stdout', instruction['output_path']+'.corsika.stdout')
+        shutil.copy(eventio_path+'.stderr', instruction['output_path']+'.corsika.stderr')
 
-        os.path.join(output_path(), 'corsika_75600_%d_run_%d.evtio' %(int(steering['steering_card']['PRMPAR'][0]),steering['run_number'])),
-        
-        event_io_converter(
+        eventio_extractor(
             eventio_path=eventio_path,
-            output_path=s.path.join()
-        )
+            output_path=instruction['output_path'],
+            eventio_extractor_path=instruction['config']['evtio_extractor'])
     return True
-"""           
+
 
 def main():
     try:
@@ -91,32 +83,12 @@ def main():
                 str(nucleus['PRMPAR']))
             os.mkdir(config['path']['main'][str(nucleus['PRMPAR'])])
 
+        config['evtio_extractor'] = os.path.abspath(arguments['--evtio_extractor'])
+
         print(config)
 
-        """
-        production_steering = read_steering(arguments['--steering_path'])
-        corsika_steering_cards = make_all_corsika_steering_cards(production_steering)
-
-        cfg = {}
-        cfg['output_path'] = {}
-        cfg['output']['directory'] = arguments['--output_path']
-        os.mkdir(cfg['output']['directory'])
-
-
-
-
-        #Make steering cards based on the given template
-        steering_cards = corsika_production_tools.make_corsika_steering_cards(
-                    prmpar=particle_id, 
-                    number_of_runs=number_of_runs,
-                    number_of_events=number_of_events, 
-                    energy_range=energy_range,
-                    cscat_x=cscat_x, cscat_y=cscat_y)
-
-
-        #Run corsika
-        result = list(scoop.futures.map(make_corsika_run, steering_cards))            
-        """
+        instructions = dc.instructions.make_instructions(config)
+        result = list(scoop.futures.map(make_corsika_run, instructions)) 
 
     except docopt.DocoptExit as e:        
         print(e)

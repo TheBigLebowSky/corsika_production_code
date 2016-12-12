@@ -1,16 +1,16 @@
 import numpy as np
 from collections import OrderedDict
+import os
 
+def make_instructions(config):
 
-def make_all_corsika_steering_cards(config):
+    max_scatter_radius = config['steering']['max_scatter_radius']
+    max_zenith_distance = config['steering']['max_zenith_distance']
+    NSHOW = config['steering']['NSHOW']
 
-    max_scatter_radius = config['config']['max_scatter_radius']
-    max_zenith_distance = config['config']['max_zenith_distance']
-    NSHOW = config['config']['NSHOW']
+    instructions = []
 
-    all_corsika_steering_cards = []
-
-    for nucleus in steering['nuclei']:
+    for nucleus in config['steering']['nuclei']:
         for run_index in range(nucleus['NRUN']):
 
             seed = nucleus['PRMPAR'] + run_index
@@ -41,8 +41,18 @@ def make_all_corsika_steering_cards(config):
             card['CERFIL'] = ['F']
             card['TSTART'] = ['T']
             card['EXIT'] = ['']
-            all_corsika_steering_cards.append(card)
-    return all_corsika_steering_cards
+
+            output_path = os.path.join(
+                config['path']['main'][str(nucleus['PRMPAR'])],
+                'run'+str(run_number))
+
+            instruction = {
+                'corsika_steering_card': card,
+                'output_path': output_path,
+                'config': config}
+
+            instructions.append(instruction)
+    return instructions
 
 
 
