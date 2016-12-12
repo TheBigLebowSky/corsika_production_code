@@ -71,18 +71,21 @@ def main():
             config['path']['main']['dir'],
             'input')
 
-        config['path']['main']['input']['config'] = os.path.join(
+        config['path']['main']['input']['steering'] = os.path.join(
             config['path']['main']['input']['dir'],
-            'config.json')
+            'steering.json')
 
         os.mkdir(config['path']['main']['dir'])
         os.mkdir(config['path']['main']['input']['dir'])
 
-        shutil.copy(arguments['--config'], config['path']['main']['input']['config'])
+        shutil.copy(
+            arguments['--config'], 
+            config['path']['main']['input']['steering'])
 
-        config['config'] = dc.config.read_config(config['path']['main']['input']['config'])
+        config['steering'] = dc.steering.read_steering(
+            config['path']['main']['input']['steering'])
 
-        for nucleus in config['config']['nuclei']:
+        for nucleus in config['steering']['nuclei']:
             config['path']['main'][str(nucleus['PRMPAR'])] = os.path.join(
                 config['path']['main']['dir'],
                 str(nucleus['PRMPAR']))

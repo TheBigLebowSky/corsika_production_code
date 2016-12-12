@@ -1,36 +1,12 @@
 import numpy as np
-import corsika_wrapper as cw
 from collections import OrderedDict
-import json
 
 
-example_config = {
-    'nuclei':[
-        {'PRMPAR': 5626, 'NRUN': 100, 'Emin': 50, 'Emax': 60, 'ESLOPE':-2.7},
-        {'PRMPAR': 1206, 'NRUN': 100, 'Emin': 50, 'Emax': 60, 'ESLOPE':-2.7},
-    ],
-    'max_scatter_radius': 75e2,
-    'max_zenith_distance': 0.0,
-    'NSHOW': 1
-}
+def make_all_corsika_steering_cards(config):
 
-def read_steering(path):
-    steering = {}
-    with open(path, 'r') as input_file:
-        steering = json.load(input_file)
-    return steering
-
-
-def write_steering(steering, path):
-    with open(path, 'w') as outfile:
-        json.dump(steering, outfile, indent=4)
-
-
-def make_all_corsika_steering_cards(steering):
-
-    max_scatter_radius = steering['max_scatter_radius']
-    max_zenith_distance = steering['max_zenith_distance']
-    NSHOW = steering['NSHOW']
+    max_scatter_radius = config['config']['max_scatter_radius']
+    max_zenith_distance = config['config']['max_zenith_distance']
+    NSHOW = config['config']['NSHOW']
 
     all_corsika_steering_cards = []
 
@@ -67,6 +43,30 @@ def make_all_corsika_steering_cards(steering):
             card['EXIT'] = ['']
             all_corsika_steering_cards.append(card)
     return all_corsika_steering_cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def make_corsika_steering_cards(prmpar=1, number_of_runs=1, number_of_events=1, energy_range=[10000,90000], cscat_x=75000, cscat_y=0):

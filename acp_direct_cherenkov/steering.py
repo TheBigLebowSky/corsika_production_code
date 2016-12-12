@@ -1,7 +1,7 @@
 import json
 
 
-example_config = {
+example_steering = {
 	'nuclei':[
     	{'PRMPAR': 5626, 'NRUN': 100, 'Emin': 50, 'Emax': 60, 'ESLOPE':-2.7},
     	{'PRMPAR': 1206, 'NRUN': 100, 'Emin': 50, 'Emax': 60, 'ESLOPE':-2.7},
@@ -12,12 +12,12 @@ example_config = {
 }
 
 
-def write_config(config, path):
+def write_steering(steering, path):
     with open(path, 'w') as outfile:
-        json.dump(config, outfile)
+        json.dump(steering, outfile)
 
 
-def read_config(path):
+def read_steering(path):
 	with open(path, 'r') as infile:
-		config = json.load(infile)
-	return config
+		steering = json.load(infile)
+	return steering
