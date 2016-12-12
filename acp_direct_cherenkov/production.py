@@ -71,12 +71,20 @@ def main():
             config['path']['main']['input']['dir'],
             'steering.json')
 
+        config['path']['main']['input']['corskia'] = os.path.join(
+            config['path']['main']['input']['dir'],
+            'corskia')
+
         os.mkdir(config['path']['main']['dir'])
         os.mkdir(config['path']['main']['input']['dir'])
 
         shutil.copy(
             arguments['--config'], 
             config['path']['main']['input']['steering'])
+
+        shutil.copytree(
+            dc.corsika_tools.corsika_directory(),
+            config['path']['main']['input']['corskia'])
 
         config['steering'] = dc.steering.read_steering(
             config['path']['main']['input']['steering'])
