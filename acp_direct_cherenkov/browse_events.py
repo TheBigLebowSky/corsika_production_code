@@ -10,7 +10,7 @@ Options:
     
     -n --run_number=RUN_NUMBER                              Give run number.
     
-    -e --run_number=RUN_NUMBER                              Give event number.                                               
+    -e --event_number=EVENT_NUMBER                            Give event number.                                               
 """
 
 
@@ -32,7 +32,7 @@ def main():
         event_number = arguments['--event_number']
         event_index = event_number-1 
         
-        run = plp.IdealizedPlenoscope.Run(os.path.join(path_to_sim_nuclei,'run%i'%run_number))
+        run = plp.IdealizedPlenoscope.Run(os.path.join(path_to_sim_nuclei,'run%i/'%run_number))
             
         event=run[event_index]
     
