@@ -21,7 +21,7 @@ import docopt
 
 
 
-def main(event_output_path, run_number, event_number):
+def main():
     
     try:
         
