@@ -85,6 +85,7 @@ def main():
         
         sc.shared.setConst(output_path=os.path.abspath(arguments['--output_path']))
         
+
         
         charge = int(arguments['--primary_charge'])
         particle_id = corsika_id(charge)
