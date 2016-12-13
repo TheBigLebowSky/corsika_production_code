@@ -1,0 +1,9 @@
+{
+    "nuclei": [
+        {"PRMPAR": 5626, "Emax": 60, "NRUN": 100, "Emin": 50, "ESLOPE": -2.7},
+        {"PRMPAR": 1206, "Emax": 60, "NRUN": 100, "Emin": 50, "ESLOPE": -2.7}
+    ],
+    "max_zenith_distance": 0.0,
+    "max_scatter_radius": 75.0e2,
+    "NSHOW": 1
+}
