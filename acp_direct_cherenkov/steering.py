@@ -8,7 +8,8 @@ example_steering = {
     ],
     'max_scatter_radius': 75e2,
     'max_zenith_distance': 0.0,
-    'NSHOW': 1
+    'NSHOW': 1,
+    'SEED': 42 #add date of simulation
 }
 
 

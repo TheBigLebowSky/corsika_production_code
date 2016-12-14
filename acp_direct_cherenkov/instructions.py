@@ -8,13 +8,13 @@ def make_instructions(config):
     max_scatter_radius = config['steering']['max_scatter_radius']
     max_zenith_distance = config['steering']['max_zenith_distance']
     NSHOW = config['steering']['NSHOW']
-
+    SEED_date = config['steering']['SEED']
     instructions = []
 
     for nucleus in config['steering']['nuclei']:
         for run_index in range(nucleus['NRUN']):
 
-            seed = nucleus['PRMPAR'] + run_index
+            seed = nucleus['PRMPAR'] + run_index + SEED_date
             run_number = run_index + 1
 
             card = OrderedDict()
