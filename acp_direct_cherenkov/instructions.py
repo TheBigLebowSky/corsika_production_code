@@ -14,7 +14,7 @@ def make_instructions(config):
     for nucleus in config['steering']['nuclei']:
         for run_index in range(nucleus['NRUN']):
 
-            seed = nucleus['PRMPAR'] + run_index + SEED_date
+            seed = nucleus['PRMPAR'] + run_index 
             run_number = run_index + 1
 
             card = OrderedDict()
@@ -26,7 +26,7 @@ def make_instructions(config):
             card['ERANGE'] = [str(nucleus['Emin'])+' '+str(nucleus['Emax'])]
             card['THETAP'] = [str(0.)+' '+str(max_zenith_distance)]
             card['PHIP'] = [str(0.)+' '+str(360.)]
-            card['SEED'] = [str(seed)+' 0 0', str(seed+1)+' 0 0', str(seed+2)+' 0 0', str(seed+3)+' 0 0']            
+            card['SEED'] = [str(SEED_date)+str(seed)+' 0 0', str(SEED_date)+str(seed+1)+' 0 0', str(SEED_date)+str(seed+2)+' 0 0', str(SEED_date)+str(seed+3)+' 0 0']            
             card['OBSLEV'] = [str(5000e2)]
             card['FIXCHI'] = [str(0.)]
             card['MAGNET'] = [str(1e-99)+' '+str(1e-99)]
