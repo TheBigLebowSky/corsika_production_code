@@ -40,6 +40,7 @@ def make_instructions(config):
             card['CWAVLG'] = [str(290)+' '+str(700)]
             card['CERSIZ'] = [str(1)]
             card['CERFIL'] = ['F']
+	    card['FIXHEI'] = [str(3200000)+' '+str(0)]
             card['TSTART'] = ['T']
             card['EXIT'] = ['']
 
