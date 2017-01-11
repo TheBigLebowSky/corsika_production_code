@@ -39,8 +39,8 @@ def make_instructions(config):
             card['CERQEF'] = ['F T F'] # pde, atmo, mirror
             card['CWAVLG'] = [str(290)+' '+str(700)]
             card['CERSIZ'] = [str(1)]
+            card['FIXHEI'] = [str(32000e2)+' 0']
             card['CERFIL'] = ['F']
-	    card['FIXHEI'] = [str(3200000)+' '+str(0)]
             card['TSTART'] = ['T']
             card['EXIT'] = ['']
 
